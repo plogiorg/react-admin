@@ -4,7 +4,7 @@ import { fetchUtil } from "../utils/fetch.util";
 
 export const useLogin = () => {
   return useMutation({
-    onMutate: (data: LoginRequest) => {
+    mutationFn: (data: LoginRequest) => {
       return fetchUtil({
         url: "/v1/auth/login",
         body: data,

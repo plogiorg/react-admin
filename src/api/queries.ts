@@ -10,7 +10,7 @@ export const useCurrentUser = () => {
     queryKey: QUERY_KEYS.GET_CURRENT_USER,
     queryFn: () => {
       return fetchUtil({
-        url: "/v1/user/me",
+        url: "/v1/auth/me",
         method: "GET",
         token: true,
       });

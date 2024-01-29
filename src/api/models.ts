@@ -1,12 +1,15 @@
 type WithId<T extends Record<string, unknown>> = T & { id: string };
 
 export type LoginRequest = {
-  email: string;
+  username: string;
   password: string;
 };
 
 export type LoginResponse = {
-  token: string;
+  access_token: string;
+  expires_in: number;
+  refresh_expires_in: number;
+  refresh_token: string;
 };
 
 export type UserModel = WithId<{

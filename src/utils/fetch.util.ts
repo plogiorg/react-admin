@@ -77,3 +77,18 @@ export function fetchUtil(options: FetchUtilOptions): Promise<any> {
       });
   });
 }
+
+export function generateAPIUrl(url: string, queryParams?: Record<string, any>) {
+  let apiUrl = `${Config.API_URL}${url}`;
+
+  if (queryParams) {
+    const queryString = new URLSearchParams(queryParams).toString();
+    apiUrl += `?${queryString}`;
+  }
+
+  return apiUrl;
+}
+
+export function getHostUrl() {
+  return `${window.location.protocol}//${window.location.host}`;
+}
