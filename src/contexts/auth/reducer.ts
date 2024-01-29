@@ -24,7 +24,6 @@ const AuthReducer = (
         user: action.payload.user,
         isLoading: false,
         isLoggedIn: true,
-        ...(action.payload.dpId && { dpId: action.payload.dpId }),
       };
     default:
       return state;

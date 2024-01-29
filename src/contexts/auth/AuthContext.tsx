@@ -10,7 +10,7 @@ import {
 } from "react";
 import { AuthContextType } from "./types";
 import AuthReducer from "./reducer";
-import { useCurrentUser } from "../../api";
+import { LoginResponse, useCurrentUser } from "../../api";
 import { generateAPIUrl, getHostUrl } from "../../utils/fetch.util";
 import { GlobalLoader } from "../../components";
 
@@ -19,7 +19,7 @@ const AuthContextInitialValues: AuthContextType = {
   token: null,
   isLoggedIn: false,
   user: null,
-  login: () => {},
+  login: (data:LoginResponse) => {},
   logout: () => {},
 };
 
@@ -56,11 +56,13 @@ export const AuthContextProvider: FC<Props> = ({ children }) => {
     initAuth();
   }, []);
 
-  const login = useCallback(() => {
+  const login = useCallback((data:any) => {
     dispatch({ type: "SET_LOADING", payload: { isLoading: true } });
-    window.location.href = generateAPIUrl("/v1/auth/login", {
-      validationUrl: `${getHostUrl()}/login/verify`,
-      homeUrl: `${getHostUrl()}/`,
+    dispatch({
+      type: "SET_USER",
+      payload: {
+        user: data,
+      },
     });
   }, [dispatch]);
 

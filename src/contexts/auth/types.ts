@@ -1,3 +1,5 @@
+import { LoginResponse } from "../../api";
+
 export type AuthContextState = {
   isLoading: boolean;
   token: string | null;
@@ -6,7 +8,7 @@ export type AuthContextState = {
 };
 
 export type AuthContextActions = {
-  login: () => void;
+  login: (data:LoginResponse) => void;
   logout: () => void;
 };
 
