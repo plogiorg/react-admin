@@ -19,7 +19,7 @@ const AuthContextInitialValues: AuthContextType = {
   token: null,
   isLoggedIn: false,
   user: null,
-  login: (data:LoginResponse) => {},
+  login: (data?:LoginResponse) => {},
   logout: () => {},
 };
 
@@ -36,7 +36,7 @@ export const AuthContextProvider: FC<Props> = ({ children }) => {
     const initAuth = async () => {
       try {
         dispatch({ type: "SET_LOADING", payload: { isLoading: true } });
-        const [{ data: userResponse }] = await Promise.all([getCurrentUser()]);
+        const { data: userResponse } = await getCurrentUser()
         if (userResponse?.sub) {
           dispatch({
             type: "SET_USER",
@@ -67,10 +67,10 @@ export const AuthContextProvider: FC<Props> = ({ children }) => {
   }, [dispatch]);
 
   const logout = useCallback(() => {
-    dispatch({ type: "SET_LOADING", payload: { isLoading: true } });
-    window.location.href = generateAPIUrl("/v1/auth/logout", {
-      homeUrl: `${getHostUrl()}/`,
-    });
+    // dispatch({ type: "SET_LOADING", payload: { isLoading: true } });
+    // window.location.href = generateAPIUrl("/v1/auth/logout", {
+    //   homeUrl: `${getHostUrl()}/`,
+    // });
   }, [dispatch]);
 
   const actions = useMemo(() => ({ login, logout }), [login, logout]);
