@@ -4,7 +4,7 @@ export type AuthContextState = {
   isLoading: boolean;
   token: string | null;
   isLoggedIn: boolean;
-  user: Record<string, any> | null;
+  user: Record<string, object> | null;
 };
 
 export type AuthContextActions = {
