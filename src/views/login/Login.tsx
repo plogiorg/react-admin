@@ -19,6 +19,7 @@ import BadgeRoundedIcon from "@mui/icons-material/BadgeRounded";
 import { useLogin } from "../../api";
 import { LOCALSTORAGE_KEYS } from "../../constants";
 import { useAuth } from "../../contexts";
+import { useNavigate } from "react-router-dom";
 // import GoogleIcon from '../../assets/react.svg';
 
 interface FormElements extends HTMLFormControlsCollection {
@@ -65,15 +66,15 @@ function ColorSchemeToggle(props: IconButtonProps) {
 export default function Login() {
   const { mutateAsync: login, isLoading } = useLogin();
   const { login: dispatchLogin } = useAuth();
-
+  const navigate = useNavigate()
   const onLoginError = (error: NonNullable<unknown>) => {
     console.log(error);
   };
 
   const onLoginSuccess = (data: any) => {
-    console.log({ data });
     localStorage.setItem(LOCALSTORAGE_KEYS.TOKEN, data.access_token);
     dispatchLogin(data)
+    navigate("/home")
   };
   return (
     <CssVarsProvider defaultMode="dark" disableTransitionOnChange>
