@@ -1,9 +1,12 @@
 import { useGetUsers } from "../../api";
+import { useEffect } from "react";
 
 const Users = () => {
-  const {data:users} = useGetUsers();
+  const {data:users, isLoading} = useGetUsers();
 
-  console.log({users});
+  useEffect(() => {
+    console.log({ users });
+  }, [isLoading]);
 
   return (
     <div className="py-2">
