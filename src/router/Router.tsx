@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import { Home } from "../views/home";
 import { Login } from "../views/login";
 import { ProtectedRoute } from ".";
+import Users from "../views/users/Users.tsx";
 
 type Route = {
   name: string;
@@ -17,9 +18,10 @@ export const ROUTES = {
   LOGIN: "/login",
   LOGIN_VERIFICATION: "/login/verify",
   DASHBOARD: "/home",
+  USERS: "/home/users",
 };
 
-const PUBLIC_ROUTES: Array<Route> = [
+const PUBLIC_ROUTES: Route[] = [
   {
     name: "Login",
     path: ROUTES.LOGIN,
@@ -27,18 +29,31 @@ const PUBLIC_ROUTES: Array<Route> = [
   },
 ];
 
-const PROTECTED_ROUTES: Array<Route> = [
+const PROTECTED_ROUTES: Route[] = [
   {
     name: "Home",
     path: ROUTES.HOME,
     component: <Home />,
+    children: [
+      {
+        name: "Users",
+        path: ROUTES.USERS,
+        component: <Users />,
+      }
+    ],
   },
-  {
-    name: "dash",
-    path: ROUTES.DASHBOARD,
-    component: <Home />,
-    children: [],
-  },
+  // {
+  //   name: "Dashboard",
+  //   path: ROUTES.DASHBOARD,
+  //   component: <Home />,
+  //   children: [
+  //     {
+  //       name: "Users",
+  //       path: ROUTES.USERS,
+  //       component: <Users />,
+  //     }
+  //   ],
+  // },
 ];
 
 const Router = () => {
