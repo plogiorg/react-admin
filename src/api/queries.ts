@@ -17,3 +17,16 @@ export const useCurrentUser = () => {
     },
   });
 };
+
+export const useGetUsers = () => {
+  return useQuery({
+    queryKey: QUERY_KEYS.GET_CURRENT_USER,
+    queryFn: () => {
+      return fetchUtil({
+        url: "/v1/auth/users",
+        method: "GET",
+        token: true,
+      });
+    },
+  });
+};

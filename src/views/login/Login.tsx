@@ -74,7 +74,7 @@ export default function Login() {
   const onLoginSuccess = (data: any) => {
     localStorage.setItem(LOCALSTORAGE_KEYS.TOKEN, data.access_token);
     dispatchLogin(data)
-    navigate("/home")
+    navigate("/home/users")
   };
   return (
     <CssVarsProvider defaultMode="dark" disableTransitionOnChange>

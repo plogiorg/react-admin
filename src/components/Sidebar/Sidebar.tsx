@@ -14,8 +14,10 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import BrightnessAutoRoundedIcon from "@mui/icons-material/BrightnessAutoRounded";
 import { closeSidebar, ColorSchemeToggle } from "../../utils/common.util.tsx";
+import { useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
+  const navigate = useNavigate();
   return (
     <Sheet
       className="Sidebar"
@@ -119,7 +121,7 @@ export default function Sidebar() {
           </ListItem>
 
           <ListItem>
-            <ListItemButton>
+            <ListItemButton onClick={() => navigate("/home/users")}>
               <DashboardRoundedIcon />
               <ListItemContent>
                 <Typography level="title-sm">Users</Typography>
