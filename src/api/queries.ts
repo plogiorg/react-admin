@@ -39,7 +39,7 @@ export const useGetServices = () => {
     queryKey: QUERY_KEYS.GET_USERS,
     queryFn: () => {
       return fetchUtil({
-        url: "/v1/services/types",
+        url: "/v1/service/types",
         method: "GET",
         token: true,
       });
