@@ -5,7 +5,7 @@ import Grid from '@mui/joy/Grid';
 import Container from '@mui/joy/Container';
 import Typography from '@mui/joy/Typography';
 import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
+import { Column, ColumnFilterElementTemplateOptions } from "primereact/column";
 import { FilterMatchMode } from "primereact/api";
 import { classNames } from "primereact/utils";
 import { Tag } from "primereact/tag";
@@ -124,7 +124,7 @@ export const ServiceComponent = () => {
   };
 
 
-  const statusRowFilterTemplate = (options) => {
+  const statusRowFilterTemplate = (options: ColumnFilterElementTemplateOptions) => {
     return (
       <Dropdown value={options.value} options={statuses} onChange={(e) => options.filterApplyCallback(e.value)} itemTemplate={statusItemTemplate} placeholder="Select One" className="p-column-filter" showClear style={{ minWidth: '12rem' }} />
     );
