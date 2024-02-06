@@ -31,7 +31,18 @@ export type UserModel = WithId<{
   street: string;
 }>;
 
+type ServiceType = WithId<{
+
+  name: string;
+  isActive: boolean
+
+}>
 
 export type GetUsersResponse = {
   users: UserModel[]
 }
+
+export type GetServiceTypesResponse = {
+  services: ServiceType[]
+}
+

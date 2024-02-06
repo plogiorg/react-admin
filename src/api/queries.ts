@@ -1,10 +1,11 @@
 import { useQuery } from "react-query";
 import { fetchUtil } from "../utils/fetch.util";
-import { GetUsersResponse } from "./models.ts";
+import { GetServiceTypesResponse, GetUsersResponse } from "./models.ts";
 
 const QUERY_KEYS = {
   GET_CURRENT_USER: ["user"],
   GET_USERS: ["users"],
+  GET_SERVICES: ["services"],
 };
 
 export const useCurrentUser = () => {
@@ -26,6 +27,19 @@ export const useGetUsers = () => {
     queryFn: () => {
       return fetchUtil({
         url: "/v1/auth/users",
+        method: "GET",
+        token: true,
+      });
+    },
+  });
+};
+
+export const useGetServices = () => {
+  return useQuery<GetServiceTypesResponse>({
+    queryKey: QUERY_KEYS.GET_USERS,
+    queryFn: () => {
+      return fetchUtil({
+        url: "/v1/services/types",
         method: "GET",
         token: true,
       });

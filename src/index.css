@@ -1,4 +1,5 @@
 @import url("https://p.typekit.net/p.css?s=1&k=qrb4dgn&ht=tk&f=139.175.176.25136&a=144158253&app=typekit&e=css");
+@import "primereact/resources/themes/lara-light-indigo/theme.css";
 
 @tailwind base;
 @tailwind components;

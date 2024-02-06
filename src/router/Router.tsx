@@ -5,6 +5,7 @@ import { Home } from "../views/home";
 import { Login } from "../views/login";
 import { ProtectedRoute } from ".";
 import Users from "../views/users/Users.tsx";
+import ServiceComponent from "../views/services";
 
 type Route = {
   name: string;
@@ -19,6 +20,7 @@ export const ROUTES = {
   LOGIN_VERIFICATION: "/login/verify",
   DASHBOARD: "/home",
   USERS: "/home/users",
+  SERVICES: "/home/services",
 };
 
 const PUBLIC_ROUTES: Route[] = [
@@ -39,6 +41,11 @@ const PROTECTED_ROUTES: Route[] = [
         name: "Users",
         path: ROUTES.USERS,
         component: <Users />,
+      },
+      {
+        name: "Services",
+        path: ROUTES.SERVICES,
+        component: <ServiceComponent />,
       }
     ],
   },

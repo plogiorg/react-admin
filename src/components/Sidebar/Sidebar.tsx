@@ -112,7 +112,7 @@ export default function Sidebar() {
           </ListItem>
 
           <ListItem>
-            <ListItemButton>
+            <ListItemButton  onClick={() => navigate("/home/services")}>
               <DashboardRoundedIcon />
               <ListItemContent>
                 <Typography level="title-sm">Services</Typography>
