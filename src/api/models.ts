@@ -1,4 +1,5 @@
 type WithId<T extends Record<string, unknown>> = T & { id: string };
+type WithOptionalId<T extends Record<string, unknown>> = T & { id?: string };
 
 export type LoginRequest = {
   username: string;
@@ -31,11 +32,11 @@ export type UserModel = WithId<{
   street: string;
 }>;
 
-type ServiceType = WithId<{
-
-  name: string;
+export type ServiceType = WithOptionalId<{
+  title: string;
   isActive: boolean
-
+  description: string;
+  image: string;
 }>
 
 export type GetUsersResponse = {

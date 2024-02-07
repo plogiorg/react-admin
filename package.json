@@ -17,11 +17,15 @@
     "@mui/joy": "^5.0.0-beta.24",
     "@mui/material": "^5.15.7",
     "@mui/x-data-grid": "^6.19.3",
+    "formik": "^2.4.5",
+    "primeicons": "^6.0.1",
     "primereact": "^10.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-query": "^3.39.3",
-    "react-router-dom": "^6.21.0"
+    "react-router-dom": "^6.21.0",
+    "react-transition-group": "^4.4.5",
+    "yup": "^1.3.3"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

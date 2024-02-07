@@ -13,6 +13,7 @@ import { TriStateCheckbox } from "primereact/tristatecheckbox";
 import { Dropdown } from "primereact/dropdown";
 import { useGetServices } from "../../api";
 import { PlusIcon } from "primereact/icons/plus";
+import CreateServiceTypeModal from "./services.action.tsx";
 
 export const ServiceComponent = () => {
   const [filters, setFilters] = useState({
@@ -26,20 +27,16 @@ export const ServiceComponent = () => {
   const [statuses] = useState(['unqualified', 'qualified', 'new', 'negotiation', 'renewal']);
   const [globalFilterValue, setGlobalFilterValue] = useState('');
   const {data, isLoading} = useGetServices()
-  const [newServiceName, setNewServiceName] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
-
-  const handleAddService = () => {
-    // const newService = {
-    //   id: services?.length + 1,
-    //   name: newServiceName
-    // };
-    // setServices([...services, newService]);
-    setNewServiceName('');
+  const handleToggleModal = () => {
+    setShowModal(!showModal);
   };
 
+
+  console.log({data});
   const verifiedBodyTemplate = (rowData: any) => {
-    return <i className={classNames('pi', { 'true-icon pi-check-circle': rowData.verified, 'false-icon pi-times-circle': !rowData.verified })}></i>;
+    return <i className={classNames('pi', { 'true-icon pi-check-circle': rowData.isActive, 'false-icon pi-times-circle': !rowData.isActive })}></i>;
   };
 
 
@@ -112,6 +109,11 @@ export const ServiceComponent = () => {
     setGlobalFilterValue(value);
   };
 
+  const formatDateColumn = (rowData: any) => {
+    const formattedDate = formatDate(rowData.createdAt, 'yyyy-MM-dd'); // Customize the date format as needed
+    return formattedDate;
+  };
+
   const renderHeader = () => {
     return (
       <div className="flex justify-content-end">
@@ -138,28 +140,31 @@ export const ServiceComponent = () => {
         Services
       </Typography>
       <Grid container spacing={2} alignContent="center" alignItems="center">
-        <Grid  md margin={1}>
-          <Input
-            fullWidth
-            size="sm"
-            startDecorator={<PlusIcon />}
-            placeholder="Service Name"
-            value={newServiceName}
-            onChange={(e) => setNewServiceName(e.target.value)}
-          />
-        </Grid>
-        <Grid xs>
-          <Button variant="solid" color="primary" onClick={handleAddService}>Add Service</Button>
+        <Grid md>
+          <Button variant="solid" color="primary" startDecorator={<PlusIcon />} onClick={handleToggleModal}>Add Type</Button>
         </Grid>
       </Grid>
       <div className={"card"}>
-        <DataTable value={data?.services} paginator rows={10} dataKey="id" filters={filters} filterDisplay="row" loading={isLoading}
-                   globalFilterFields={['name', 'country.name', 'representative.name', 'status']} header={header} emptyMessage="No customers found.">
-          <Column field="name" header="Name" filter filterPlaceholder="Search by name" style={{ minWidth: '12rem' }} />
-          <Column header="Country" filterField="country.name" style={{ minWidth: '12rem' }} body={countryBodyTemplate} filter filterPlaceholder="Search by country" />
-          <Column field="status" header="Status" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter filterElement={statusRowFilterTemplate} />
-          <Column field="verified" header="Verified" dataType="boolean" style={{ minWidth: '6rem' }} body={verifiedBodyTemplate} filter filterElement={verifiedRowFilterTemplate} />
+        <DataTable value={data?.services} paginator rows={10} dataKey="id" filters={filters} filterDisplay="row"
+                   loading={isLoading}
+                   globalFilterFields={['title', 'description']} header={header}
+                   emptyMessage="No types found.">
+          <Column field="title" header="Name" filter filterPlaceholder="Search by name" style={{ minWidth: '12rem' }} />
+          <Column field="description" header="Description" filter filterPlaceholder="Search by description" style={{ minWidth: '12rem' }} />
+          <Column field="createdAt" header="Created At"  filter style={{ minWidth: '12rem' }} body={(rowData) => new Date(rowData.createdAt).toLocaleDateString()} />
+          {/*<Column header="Country" filterField="country.name" style={{ minWidth: '12rem' }} body={countryBodyTemplate}*/}
+          {/*        filter filterPlaceholder="Search by country" />*/}
+          {/*<Column field="status" header="Status" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }}*/}
+          {/*        style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter*/}
+          {/*        filterElement={statusRowFilterTemplate} />*/}
+          <Column field="isActive" header="Active" dataType="boolean" style={{ minWidth: '6rem' }}
+                  body={verifiedBodyTemplate} filter filterElement={verifiedRowFilterTemplate} />
         </DataTable>
+      </div>
+
+      <div>
+        <button onClick={handleToggleModal}>Open Modal</button>
+        <CreateServiceTypeModal visible={showModal} onHide={handleToggleModal} />
       </div>
     </Container>
   );

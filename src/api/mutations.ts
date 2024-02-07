@@ -1,5 +1,5 @@
 import { useMutation } from "react-query";
-import { LoginRequest } from ".";
+import { LoginRequest, ServiceType } from ".";
 import { fetchUtil } from "../utils/fetch.util";
 
 export const useLogin = () => {
@@ -20,6 +20,19 @@ export const useLogout = () => {
       return fetchUtil({
         url: "/v1/auth/logout",
         method: "POST",
+      });
+    },
+  });
+};
+
+export const useCreateServiceType = () => {
+  return useMutation({
+    mutationFn: (data: ServiceType) => {
+      return fetchUtil({
+        url: "/v1/service/types",
+        method: "POST",
+        body: data,
+        token: true
       });
     },
   });
