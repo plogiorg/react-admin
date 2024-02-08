@@ -37,3 +37,16 @@ export const useCreateServiceType = () => {
     },
   });
 };
+
+export const useUpdateServiceType = () => {
+  return useMutation({
+    mutationFn: (data: ServiceType) => {
+      return fetchUtil({
+        url: `/v1/service/types/${data.id}`,
+        method: "PUT",
+        body: data,
+        token: true
+      });
+    },
+  });
+};

@@ -32,10 +32,11 @@ const initialValues: ServiceType = {
 
 interface Props {
   onSubmit: (values: ServiceType) => void;
+  serviceType?:ServiceType,
   loading:boolean
 }
 
-const CreateServiceTypeForm: React.FC<Props> = ({ onSubmit, loading }) => {
+const CreateServiceTypeForm: React.FC<Props> = ({ onSubmit, loading, serviceType }) => {
   const handleSubmit = (values: ServiceType, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
     onSubmit(values);
     setSubmitting(false);
@@ -46,7 +47,7 @@ const CreateServiceTypeForm: React.FC<Props> = ({ onSubmit, loading }) => {
       <Toast ref={(el) => (window.toast = el)} />
       <h1>Create Service Type</h1>
       <Formik
-        initialValues={initialValues}
+        initialValues={serviceType || initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >

@@ -11,7 +11,7 @@ import { classNames } from "primereact/utils";
 import { Tag } from "primereact/tag";
 import { TriStateCheckbox } from "primereact/tristatecheckbox";
 import { Dropdown } from "primereact/dropdown";
-import { useGetServices } from "../../api";
+import { ServiceType, useGetServices } from "../../api";
 import { PlusIcon } from "primereact/icons/plus";
 import CreateServiceTypeModal from "./services.action.tsx";
 
@@ -27,6 +27,7 @@ export const ServiceComponent = () => {
   const [statuses] = useState(['unqualified', 'qualified', 'new', 'negotiation', 'renewal']);
   const [globalFilterValue, setGlobalFilterValue] = useState('');
   const {data, isLoading} = useGetServices()
+  const [serviceType, setServiceType] = useState<ServiceType | undefined>()
   const [showModal, setShowModal] = useState(false);
 
   const handleToggleModal = () => {
@@ -109,10 +110,6 @@ export const ServiceComponent = () => {
     setGlobalFilterValue(value);
   };
 
-  const formatDateColumn = (rowData: any) => {
-    const formattedDate = formatDate(rowData.createdAt, 'yyyy-MM-dd'); // Customize the date format as needed
-    return formattedDate;
-  };
 
   const renderHeader = () => {
     return (
@@ -134,6 +131,11 @@ export const ServiceComponent = () => {
 
   const header = renderHeader();
 
+  const onRowClick = (item:any) =>{
+    setServiceType(item.value)
+    handleToggleModal()
+  }
+
   return (
     <Container>
       <Typography variant="solid" alignContent="center" gutterBottom>
@@ -147,6 +149,7 @@ export const ServiceComponent = () => {
       <div className={"card"}>
         <DataTable value={data?.services} paginator rows={10} dataKey="id" filters={filters} filterDisplay="row"
                    loading={isLoading}
+                   selectionMode="single" onSelectionChange={onRowClick}
                    globalFilterFields={['title', 'description']} header={header}
                    emptyMessage="No types found.">
           <Column field="title" header="Name" filter filterPlaceholder="Search by name" style={{ minWidth: '12rem' }} />
@@ -164,7 +167,7 @@ export const ServiceComponent = () => {
 
       <div>
         <button onClick={handleToggleModal}>Open Modal</button>
-        <CreateServiceTypeModal visible={showModal} onHide={handleToggleModal} />
+        <CreateServiceTypeModal serviceType={serviceType} visible={showModal} onHide={handleToggleModal} />
       </div>
     </Container>
   );
