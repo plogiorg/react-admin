@@ -3,7 +3,6 @@ import { useColorScheme } from "@mui/joy/styles";
 import * as React from "react";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import LightModeIcon from "@mui/icons-material/LightMode";
-import PrimeReact from "primereact/api";
 
 
 export function ColorSchemeToggle(props: IconButtonProps) {

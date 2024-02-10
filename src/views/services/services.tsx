@@ -7,7 +7,6 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { FilterMatchMode } from "primereact/api";
 import { classNames } from "primereact/utils";
-import { Tag } from "primereact/tag";
 import { TriStateCheckbox } from "primereact/tristatecheckbox";
 import { ServiceType, useGetServices } from "../../api";
 import { PlusIcon } from "primereact/icons/plus";
@@ -42,43 +41,25 @@ export const ServiceComponent = () => {
   };
 
 
-  const countryBodyTemplate = (rowData: any) => {
-    return (
-      <div className="flex align-items-center gap-2">
-        <img alt="flag" src="https://primefaces.org/cdn/primereact/images/flag/flag_placeholder.png"
-             className={`flag flag-${rowData.country.code}`} style={{ width: "24px" }} />
-        <span>{rowData.country.name}</span>
-      </div>
-    );
-  };
+  // const countryBodyTemplate = (rowData: any) => {
+  //   return (
+  //     <div className="flex align-items-center gap-2">
+  //       <img alt="flag" src="https://primefaces.org/cdn/primereact/images/flag/flag_placeholder.png"
+  //            className={`flag flag-${rowData.country.code}`} style={{ width: "24px" }} />
+  //       <span>{rowData.country.name}</span>
+  //     </div>
+  //   );
+  // };
 
 
-  const getSeverity = (status: string) => {
-    switch (status) {
-      case "unqualified":
-        return "danger";
-
-      case "qualified":
-        return "success";
-
-      case "new":
-        return "info";
-
-      case "negotiation":
-        return "warning";
-
-      case "renewal":
-        return null;
-    }
-  };
 
   const verifiedRowFilterTemplate = (options: any) => {
     return <TriStateCheckbox value={options.value} onChange={(e) => options.filterApplyCallback(e.value)} />;
   };
 
-  const statusItemTemplate = (option: any) => {
-    return <Tag value={option} severity={getSeverity(option)} />;
-  };
+  // const statusItemTemplate = (option: any) => {
+  //   return <Tag value={option} severity={getSeverity(option)} />;
+  // };
   // const statusBodyTemplate = (rowData: any) => {
   //   return <Tag value={rowData.status} severity={getSeverity(rowData.status)} />;
   // };
@@ -161,9 +142,6 @@ export const ServiceComponent = () => {
                   body={(rowData) => new Date(rowData.createdAt).toLocaleDateString()} />
           {/*<Column header="Country" filterField="country.name" style={{ minWidth: '12rem' }} body={countryBodyTemplate}*/}
           {/*        filter filterPlaceholder="Search by country" />*/}
-          {/*<Column field="status" header="Status" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }}*/}
-          {/*        style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter*/}
-          {/*        filterElement={statusRowFilterTemplate} />*/}
           <Column field="isActive" header="Active" dataType="boolean" style={{ minWidth: "6rem" }}
                   body={verifiedBodyTemplate} filter filterElement={verifiedRowFilterTemplate} />
         </DataTable>
