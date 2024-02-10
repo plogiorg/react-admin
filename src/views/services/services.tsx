@@ -1,16 +1,14 @@
-import { useState } from 'react';
-import Button from '@mui/joy/Button';
-import Input from '@mui/joy/Input';
-import Grid from '@mui/joy/Grid';
-import Container from '@mui/joy/Container';
-import Typography from '@mui/joy/Typography';
-import { DataTable } from 'primereact/datatable';
-import { Column, ColumnFilterElementTemplateOptions } from "primereact/column";
+import { useState } from "react";
+import Button from "@mui/joy/Button";
+import Input from "@mui/joy/Input";
+import Container from "@mui/joy/Container";
+import Typography from "@mui/joy/Typography";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 import { FilterMatchMode } from "primereact/api";
 import { classNames } from "primereact/utils";
 import { Tag } from "primereact/tag";
 import { TriStateCheckbox } from "primereact/tristatecheckbox";
-import { Dropdown } from "primereact/dropdown";
 import { ServiceType, useGetServices } from "../../api";
 import { PlusIcon } from "primereact/icons/plus";
 import CreateServiceTypeModal from "./services.action.tsx";
@@ -19,15 +17,15 @@ export const ServiceComponent = () => {
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    'country.name': { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    representative: { value: null, matchMode: FilterMatchMode.IN },
+    "country.name": { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    description: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
     status: { value: null, matchMode: FilterMatchMode.EQUALS },
-    verified: { value: null, matchMode: FilterMatchMode.EQUALS }
+    verified: { value: null, matchMode: FilterMatchMode.EQUALS },
   });
-  const [statuses] = useState(['unqualified', 'qualified', 'new', 'negotiation', 'renewal']);
-  const [globalFilterValue, setGlobalFilterValue] = useState('');
-  const {data, isLoading} = useGetServices()
-  const [serviceType, setServiceType] = useState<ServiceType | undefined>()
+  // const [statuses] = useState(["unqualified", "qualified", "new", "negotiation", "renewal"]);
+  const [globalFilterValue, setGlobalFilterValue] = useState("");
+  const { data, isLoading } = useGetServices();
+  const [serviceType, setServiceType] = useState<ServiceType | undefined>();
   const [showModal, setShowModal] = useState(false);
 
   const handleToggleModal = () => {
@@ -35,51 +33,55 @@ export const ServiceComponent = () => {
   };
 
 
-  console.log({data});
+  console.log({ data });
   const verifiedBodyTemplate = (rowData: any) => {
-    return <i className={classNames('pi', { 'true-icon pi-check-circle': rowData.isActive, 'false-icon pi-times-circle': !rowData.isActive })}></i>;
+    return <i className={classNames("pi", {
+      "true-icon pi-check-circle": rowData.isActive,
+      "false-icon pi-times-circle": !rowData.isActive,
+    })}></i>;
   };
 
 
-  const countryBodyTemplate = (rowData:any) => {
+  const countryBodyTemplate = (rowData: any) => {
     return (
       <div className="flex align-items-center gap-2">
-        <img alt="flag" src="https://primefaces.org/cdn/primereact/images/flag/flag_placeholder.png" className={`flag flag-${rowData.country.code}`} style={{ width: '24px' }} />
+        <img alt="flag" src="https://primefaces.org/cdn/primereact/images/flag/flag_placeholder.png"
+             className={`flag flag-${rowData.country.code}`} style={{ width: "24px" }} />
         <span>{rowData.country.name}</span>
       </div>
     );
   };
 
 
-  const getSeverity = (status:string) => {
+  const getSeverity = (status: string) => {
     switch (status) {
-      case 'unqualified':
-        return 'danger';
+      case "unqualified":
+        return "danger";
 
-      case 'qualified':
-        return 'success';
+      case "qualified":
+        return "success";
 
-      case 'new':
-        return 'info';
+      case "new":
+        return "info";
 
-      case 'negotiation':
-        return 'warning';
+      case "negotiation":
+        return "warning";
 
-      case 'renewal':
+      case "renewal":
         return null;
     }
-  }
+  };
 
-  const verifiedRowFilterTemplate = (options:any) => {
+  const verifiedRowFilterTemplate = (options: any) => {
     return <TriStateCheckbox value={options.value} onChange={(e) => options.filterApplyCallback(e.value)} />;
   };
 
-  const statusItemTemplate = (option:any) => {
+  const statusItemTemplate = (option: any) => {
     return <Tag value={option} severity={getSeverity(option)} />;
   };
-  const statusBodyTemplate = (rowData: any) => {
-    return <Tag value={rowData.status} severity={getSeverity(rowData.status)} />;
-  };
+  // const statusBodyTemplate = (rowData: any) => {
+  //   return <Tag value={rowData.status} severity={getSeverity(rowData.status)} />;
+  // };
   // const handleDeleteService = (id:number) => {
   //   const updatedServices = services.filter(service => service.id !== id);
   //   setServices(updatedServices);
@@ -100,11 +102,11 @@ export const ServiceComponent = () => {
   //   },
   // ];
 
-  const onGlobalFilterChange = (e:any) => {
+  const onGlobalFilterChange = (e: any) => {
     const value = e.target.value;
     const _filters = { ...filters };
 
-    _filters['global'].value = value;
+    _filters["global"].value = value;
 
     setFilters(_filters);
     setGlobalFilterValue(value);
@@ -113,60 +115,61 @@ export const ServiceComponent = () => {
 
   const renderHeader = () => {
     return (
-      <div className="flex justify-content-end">
+      <div className="flex justify-between">
                 <span className="p-input-icon-left">
                     <i className="pi pi-search" />
                     <Input value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
                 </span>
+        <div>
+          <Button variant="solid" color="primary" startDecorator={<PlusIcon />} onClick={handleToggleModal}>Add Type</Button>
+        </div>
       </div>
     );
   };
 
 
-  const statusRowFilterTemplate = (options: ColumnFilterElementTemplateOptions) => {
-    return (
-      <Dropdown value={options.value} options={statuses} onChange={(e) => options.filterApplyCallback(e.value)} itemTemplate={statusItemTemplate} placeholder="Select One" className="p-column-filter" showClear style={{ minWidth: '12rem' }} />
-    );
-  };
+  // const statusRowFilterTemplate = (options: ColumnFilterElementTemplateOptions) => {
+  //   return (
+  //     <Dropdown value={options.value} options={statuses} onChange={(e) => options.filterApplyCallback(e.value)}
+  //               itemTemplate={statusItemTemplate} placeholder="Select One" className="p-column-filter" showClear
+  //               style={{ minWidth: "12rem" }} />
+  //   );
+  // };
 
   const header = renderHeader();
 
-  const onRowClick = (item:any) =>{
-    setServiceType(item.value)
-    handleToggleModal()
-  }
+  const onRowClick = (item: any) => {
+    setServiceType(item.value);
+    handleToggleModal();
+  };
 
   return (
     <Container>
       <Typography variant="solid" alignContent="center" gutterBottom>
         Services
       </Typography>
-      <Grid container spacing={2} alignContent="center" alignItems="center">
-        <Grid md>
-          <Button variant="solid" color="primary" startDecorator={<PlusIcon />} onClick={handleToggleModal}>Add Type</Button>
-        </Grid>
-      </Grid>
       <div className={"card"}>
         <DataTable value={data?.services} paginator rows={10} dataKey="id" filters={filters} filterDisplay="row"
                    loading={isLoading}
                    selectionMode="single" onSelectionChange={onRowClick}
-                   globalFilterFields={['title', 'description']} header={header}
+                   globalFilterFields={["title", "description"]} header={header}
                    emptyMessage="No types found.">
-          <Column field="title" header="Name" filter filterPlaceholder="Search by name" style={{ minWidth: '12rem' }} />
-          <Column field="description" header="Description" filter filterPlaceholder="Search by description" style={{ minWidth: '12rem' }} />
-          <Column field="createdAt" header="Created At"  filter style={{ minWidth: '12rem' }} body={(rowData) => new Date(rowData.createdAt).toLocaleDateString()} />
+          <Column field="title" header="Name" filter filterPlaceholder="Search by name" style={{ minWidth: "12rem" }} />
+          <Column field="description" header="Description" filter filterPlaceholder="Search by description"
+                  style={{ minWidth: "12rem" }} />
+          <Column field="createdAt" header="Created At" filter style={{ minWidth: "12rem" }}
+                  body={(rowData) => new Date(rowData.createdAt).toLocaleDateString()} />
           {/*<Column header="Country" filterField="country.name" style={{ minWidth: '12rem' }} body={countryBodyTemplate}*/}
           {/*        filter filterPlaceholder="Search by country" />*/}
           {/*<Column field="status" header="Status" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }}*/}
           {/*        style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter*/}
           {/*        filterElement={statusRowFilterTemplate} />*/}
-          <Column field="isActive" header="Active" dataType="boolean" style={{ minWidth: '6rem' }}
+          <Column field="isActive" header="Active" dataType="boolean" style={{ minWidth: "6rem" }}
                   body={verifiedBodyTemplate} filter filterElement={verifiedRowFilterTemplate} />
         </DataTable>
       </div>
 
       <div>
-        <button onClick={handleToggleModal}>Open Modal</button>
         <CreateServiceTypeModal serviceType={serviceType} visible={showModal} onHide={handleToggleModal} />
       </div>
     </Container>
