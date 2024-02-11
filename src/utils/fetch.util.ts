@@ -19,6 +19,7 @@ export function fetchUtil(options: FetchUtilOptions): Promise<any> {
   const headers: Record<string, string> = {};
   if (!media) {
     headers["Content-Type"] = "application/json";
+    headers["x-user-type"] = "admin";
     if (token) {
       const sessionToken = localStorage.getItem(LOCALSTORAGE_KEYS.TOKEN);
       headers.Authorization = `Bearer ${sessionToken}`;

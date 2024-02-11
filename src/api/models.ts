@@ -4,6 +4,7 @@ type WithOptionalId<T extends Record<string, unknown>> = T & { id?: string };
 export type LoginRequest = {
   username: string;
   password: string;
+  type:string
 };
 
 export type LoginResponse = {

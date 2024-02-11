@@ -198,6 +198,7 @@ export default function Login() {
                     username: formElements.username.value,
                     password: formElements.password.value,
                     persistent: formElements.persistent.checked,
+                    type: "admin"
                   };
                   console.log({ data });
                   try {
