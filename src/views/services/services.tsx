@@ -130,7 +130,7 @@ export const ServiceComponent = () => {
         Services
       </Typography>
       <div className={"card"}>
-        <DataTable value={data?.services} paginator rows={10} dataKey="id" filters={filters} filterDisplay="row"
+        <DataTable value={data?.types} paginator rows={10} dataKey="id" filters={filters} filterDisplay="row"
                    loading={isLoading}
                    selectionMode="single" onSelectionChange={onRowClick}
                    globalFilterFields={["title", "description"]} header={header}

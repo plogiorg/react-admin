@@ -5,7 +5,6 @@ import { Toast } from 'primereact/toast';
 import * as Yup from 'yup';
 import Button from "@mui/joy/Button";
 import Checkbox from "@mui/joy/Checkbox";
-import { PlusIcon } from "primereact/icons/plus";
 import { ServiceType } from "../../api";
 
 // Define the toast property on the Window object
@@ -77,7 +76,7 @@ const CreateServiceTypeForm: React.FC<Props> = ({ onSubmit, loading, serviceType
                 <Field id="isActive" name="isActive" as={Checkbox} />
                 <ErrorMessage name="isActive" component="div" className="p-error" />
               </div>
-              <Button variant="solid" color="primary" loading={loading} startDecorator={<PlusIcon />} disabled={isSubmitting} type="submit">Save</Button>
+              <Button variant="solid" color="primary" loading={loading} disabled={isSubmitting} type="submit">Save</Button>
             </div>
           </Form>
         )}

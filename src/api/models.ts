@@ -45,6 +45,6 @@ export type GetUsersResponse = {
 }
 
 export type GetServiceTypesResponse = {
-  services: ServiceType[]
+  types: ServiceType[]
 }
 
