@@ -11,6 +11,8 @@ const QUERY_KEYS = {
 export const useCurrentUser = () => {
   return useQuery({
     queryKey: QUERY_KEYS.GET_CURRENT_USER,
+    enabled: false,
+    retry: false,
     queryFn: () => {
       return fetchUtil({
         url: "/v1/auth/me",

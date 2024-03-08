@@ -28,8 +28,8 @@ type Props = { children: ReactNode };
 
 export const AuthContextProvider: FC<Props> = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, AuthContextInitialValues);
-
   const { refetch: getCurrentUser } = useCurrentUser();
+
 
   useEffect(() => {
     const initAuth = async () => {
@@ -65,6 +65,11 @@ export const AuthContextProvider: FC<Props> = ({ children }) => {
     });
   }, [dispatch]);
 
+  const signup = useCallback((data:object) => {
+    dispatch({ type: "SET_LOADING", payload: { isLoading: true } });
+    console.log({data});
+  }, [dispatch]);
+
   const logout = useCallback(() => {
     // dispatch({ type: "SET_LOADING", payload: { isLoading: true } });
     // window.location.href = generateAPIUrl("/v1/auth/logout", {
@@ -72,14 +77,12 @@ export const AuthContextProvider: FC<Props> = ({ children }) => {
     // });
   }, [dispatch]);
 
-  const actions = useMemo(() => ({ login, logout }), [login, logout]);
+  const actions = useMemo(() => ({ login, logout, signup }), [login, logout, signup]);
 
   const contextValue = useMemo(
     () => ({ ...state, ...actions }),
     [state, actions]
   );
-
-  console.log({ state, contextValue });
 
   return (
     <AuthContext.Provider value={contextValue}>
